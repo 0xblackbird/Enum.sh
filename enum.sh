@@ -14,6 +14,7 @@ else
 fi
 
 echo -e "\e[1;31m[+] Started probing file using httprobe...\e[0m"
+# Change this directory to the installation of the the httprobe directory in order to use httprobe!
 cat $file | /opt/httprobe/./httprobe > d0m@ins15448.txt
 mv d0m@ins15448.txt /root/domains
 
