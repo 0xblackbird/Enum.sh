@@ -1,5 +1,5 @@
 # Subdomain-Scanner
-An edit of Nahamssec crt.sh script!
+**An edit of *Nahamsec* crt.sh script!**
 
 # Description
 The subdomain enumeration script from **@NahamSec**, but then improved!
