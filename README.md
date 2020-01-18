@@ -5,11 +5,11 @@
 The subdomain enumeration script from **@NahamSec**, but then improved!
 
 # Installation
-1. **`$ git clone https://github.com/Anonymous1807/Subdomain-Scanner.git`**
+1. `$ git clone https://github.com/flemishhacker/Subdomain-Scanner.git`
 
-2. **`$ cd Subdomain-Scanner/`**
+2. `$ cd Subdomain-Scanner/`
 
-3. **`$ sudo chmod +x enum.sh`**
+3. `$ sudo chmod +x enum.sh`
 
 **MAKE SURE YOU CHANGE THE DIRECTORY OF THE *HTTPROBE* IN THE SCRIPT TO AVOID ANY CRASHES!**
 
