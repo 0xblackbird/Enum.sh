@@ -1,8 +1,8 @@
 # Subdomain-Scanner
-**An edit of *Nahamsec* crt.sh script!**
+A subdomain scanner that combines 2 tools! **Sublist3r and crt.sh!**
 
 # Description
-The subdomain enumeration script from **@NahamSec**, but then improved!
+A subdomain scanner with 2 tools and a probing function **(httprobe)**
 
 # Installation
 1. `$ git clone https://github.com/flemishhacker/Subdomain-Scanner.git`
@@ -11,13 +11,20 @@ The subdomain enumeration script from **@NahamSec**, but then improved!
 
 3. `$ sudo chmod +x enum.sh`
 
-**MAKE SURE YOU CHANGE THE DIRECTORY OF THE *HTTPROBE* IN THE SCRIPT TO AVOID ANY CRASHES!**
+**MAKE SURE YOU HAVE *SUBLIST3R* and *HTTPROBE* INSTALLED TO AVOID ANY CRASHES!**
+
+**PLEASE CHANGE THE LOCATION OF THE TOOLS MENTIOND ABOVE TO THE DOWNLOAD LOCATION!**
 
 # Usage
 
-`$ ./enum.sh example.com domains.txt`
+`$ ./enum.sh example.com output.txt`
 
 # Features
-1. Using @Nahamsec crt.sh script and storing the output in a file
-2. Getting the same file and running it through httprobe
-3. Storing the results from httprobe and saving it
+
+**1. Ultra fast *crt.sh* scan**
+**2. Scanning subdomains using *Sublist3r*! More tools like this comming soon!**
+**3. And ofcoars you can check the domains if they are alive or not using *Httprobe* [optional] !**
+
+# TODO
+**1. Add *Eyewitness* to screenshot all the domains [optional]!**
+**2. Add an other tool like *amass***
