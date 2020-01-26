@@ -28,4 +28,5 @@ This makes it easier so you only need to run this script once! More tools commin
 
 # TODO
 **1. Add *Eyewitness* to screenshot all the domains [optional]!**
+
 **2. Add an other tool like *amass***
