@@ -3,6 +3,7 @@ A subdomain scanner that combines 2 tools! **Sublist3r and crt.sh!**
 
 # Description
 A subdomain scanner with 2 tools and a probing function **(httprobe)**
+This makes it easier so you only need to run this script once! More tools comming soon! 
 
 # Installation
 1. `$ git clone https://github.com/flemishhacker/Subdomain-Scanner.git`
