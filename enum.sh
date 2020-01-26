@@ -43,6 +43,7 @@ crt() {
    fi
 }
 
+# Assetfinder is not used because of alot of false positives!
 assetfinder() {
    if [ "$file" == "" ]; then
 	echo -e "${red}[-] No output file provided...Printing results on screen!${close}"
