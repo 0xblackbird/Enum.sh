@@ -49,10 +49,12 @@ assetfinder() {
 	echo -e "${red}[-] No output file provided...Printing results on screen!${close}"
 	echo -e "${red}[+] Searching in ${close}${yellow}Assetfinder ${close}${red}for${close}${yellow} '$domain'${close}${red}!${close}"
 	/opt/./assetfinder $domain > subdomain_af.txt
+# CHANGE ^^^^^THIS^^^^ LOCATION TO YOUR DOWNLOAD LOCATION!
 	echo -e "${red}[+] Finished enumerating subdomains using${close} ${yellow}'Assetfinder'${close}${red}...${close}"
    else
    	echo -e "${red}[+] Searching in ${close}${yellow}Assetfinder ${close}${red}!${close}"
 	/opt/./assetfinder $domain > subdomain_af.txt
+# CHANGE ^^^^^THIS^^^^ LOCATION TO YOUR DOWNLOAD LOCATION!
 	echo -e "${red}[+] Finished enumerating subdomains using${close} ${yellow}'Assetfinder'${close}${red}...${close}"
    fi
 
@@ -62,11 +64,13 @@ sublist3r() {
    if [ "$file" == "" ]; then
 	echo -e "${red}[+] Searching in ${close}${yellow}Sublist3r ${close}${red}for${close}${yellow} '$domain'${close}${red}!${close}"
 	python /opt/Sublist3r/sublist3r.py -d $domain -o subdomain_sl.txt
+# CHANGE ^^^^^THIS^^^^ LOCATION TO YOUR DOWNLOAD LOCATION!
 	clear
 	echo -e "${red}[+] Finished enumerating subdomains using${close} ${yellow}'Sublist3r'${close}${red}...${close}"
    else
    	echo -e "${red}[+] Searching in ${close}${yellow}Sublist3r ${close}${red}!${close}"
 	python /opt/Sublist3r/sublist3r.py -d $domain -o subdomain_sl.txt
+# CHANGE ^^^^^THIS^^^^ LOCATION TO YOUR DOWNLOAD LOCATION!
 	clear
 	echo -e "${red}[+] Finished enumerating subdomains using${close} ${yellow}'Sublist3r'${close}${red}...${close}"
    fi
@@ -85,6 +89,7 @@ finish() {
   if [ "$httprobe" == "y" ] && [ ! $file == "" ]; then	
 			echo -e "${red}[+] Probing domains using${close}${yellow} 'httprobe'${close}${red}...${close}"
 			cat dom@ins.txt | /opt/httprobe/./httprobe > subdomains.txt
+				# CHANGE ^^^^^THIS^^^^ LOCATION TO YOUR DOWNLOAD LOCATION!
 			wait${!}
 			rm dom@ins.txt
 			mv subdomains.txt /root/$file
@@ -92,6 +97,7 @@ finish() {
 	elif [ "$httprobe" == "y" ] && [ "$file" == "" ]; then
 			echo -e "${red}[+] Probing domains using${close}${yellow} 'httprobe'${close}${red}...${close}"
 			cat dom@ins.txt | /opt/httprobe/./httprobe > subdomains.txt
+				# CHANGE ^^^^^THIS^^^^ LOCATION TO YOUR DOWNLOAD LOCATION!
 			wait${!} 
 			rm dom@ins.txt
 			echo -e "${red}[+] Progress finished...Displaying results!${close}"
@@ -123,7 +129,7 @@ if [ "$domain" == "" ]; then
 	echo -e "${red}[-] No domain name found...Quitting!${close}"
 elif [ "$file" == "" ]; then
 	echo -e "${red}[-] No output file detected...Printing results on screen!${close}"
-  crt
+  	crt
 	#assetfinder
 	sublist3r
 	finish
