@@ -23,8 +23,11 @@ This makes it easier so you only need to run this script once! More tools commin
 # Features
 
 **1. Ultra fast *crt.sh* scan**
+
 **2. Scanning subdomains using *Sublist3r*! More tools like this comming soon!**
+
 **3. And ofcoars you can check the domains if they are alive or not using *Httprobe* [optional] !**
+
 
 # TODO
 **1. Add *Eyewitness* to screenshot all the domains [optional]!**
