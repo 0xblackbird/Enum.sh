@@ -1,4 +1,4 @@
-# Subdomain Scanner
+# Subdomain Scanner[BETA]
 A subdomain scanner that combines 2 tools! **Sublist3r and crt.sh!**
 
 # Description
