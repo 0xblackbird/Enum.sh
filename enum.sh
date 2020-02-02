@@ -49,6 +49,7 @@ assetfinder_func() {
     if [ "$domain" != "" ] && [ "$file" != "" ]; then
    	echo -e "${red}[+] Searching in ${close}${yellow}Assetfinder ${close}${red}!${close}"
 	assetfinder=`/usr/bin/assetfinder $domain | xargs -n1 | grep $domain`
+		# CHANGE THE LOCATION ABOVE!
 	echo -e "${red}[+] Finished enumerating subdomains using${close} ${yellow}'Assetfinder'${close}${red}...${close}"
    else
 	echo -e "${red}[-] Parse error at line ${close}${blue}'54'${close}${red}...Please report this to the developer! Thanks!${close}"
@@ -59,6 +60,7 @@ sublist3r_func() {
    if [ "$domain" != "" ] && [ "$file" != "" ]; then
    	echo -e "${red}[+] Searching in ${close}${yellow}Sublist3r ${close}${red}!${close}"
 	sublist3r=`python /opt/Sublist3r/sublist3r.py -d $domain | sed "s/ /\n/g" | sed "s/<BR>/\n/g" | grep $domain`
+		# CHANGE THE LOCATION ABOVE!
 	clear
 	echo -e "${red}[+] Finished enumerating subdomains using${close} ${yellow}'Sublist3r'${close}${red}...${close}"
    else
@@ -70,6 +72,7 @@ eyewitness() {
 	if [ "$domain" != "" ] && [ "$file" != "" ]; then
 		echo -e "${red}[+] Screenshotting subdomains using ${close}${yellow}'Eyewitness'${close}...${close}"
 		python3 /opt/EyeWitness/EyeWitness.py -d /screens/ -f $file
+		# CHANGE THE LOCATION ABOVE!
 	else
 		echo -e "${red}[-] Parse error at line ${close}${blue}'74'${close}${red}...Please report this to the developer! Thanks!${close}"
 	fi
@@ -88,6 +91,7 @@ finish() {
 			echo -e "${red}[+] Probing domains using${close}${yellow} 'httprobe'${close}${red}...${close}"
 			cat $file > d0m@ins.txt
 			cat d0m@ins.txt | /opt/httprobe/./httprobe > $file
+					# CHANGE THE LOCATION ABOVE!
 			if [ -f d0m@ins.txt ]; then			
 				rm d0m@ins.txt
 			fi
