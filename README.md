@@ -1,9 +1,16 @@
+
+# Update 02/02/2020
+**1. Added *Assetfinder* to scan subdomains!**
+**2. Added *Eyewitness* to screenshot all the subdomains [OPTIONAL]**
+**3. Cleaned up the code! :)**
+
 # Subdomain Scanner[BETA]
-A subdomain scanner that combines 2 tools! **Sublist3r and crt.sh!**
+A subdomain scanner that combines subdomain scanning tools!
 
 # Description
-A subdomain scanner with 2 tools and a probing function **(httprobe)**
-This makes it easier so you only need to run this script once! More tools comming soon! 
+A subdomain scanner that combines **several subdomain scanning tools**!
+I've also added **httprobe** and **eyewitness** to scan live subdomains and screenshot them!
+This makes it easier so you only need to run this script once! More tools and helpful functions comming soon! 
 
 # Installation
 1. `$ git clone https://github.com/flemishhacker/Subdomain-Scanner.git`
@@ -20,16 +27,7 @@ This makes it easier so you only need to run this script once! More tools commin
 
 `$ ./enum.sh example.com output.txt`
 
-# Features
+# BETA
+**This tool is still not complete! More subdomain scanners and other helpful functions are going to be added later on!** 
 
-**1. Ultra fast *crt.sh* scan**
-
-**2. Scanning subdomains using *Sublist3r*! More tools like this comming soon!**
-
-**3. And ofcoars you can check the domains if they are alive or not using *Httprobe* [optional] !**
-
-
-# TODO
-**1. Add *Eyewitness* to screenshot all the domains [optional]!**
-
-**2. Add an other tool like *amass***
+**Please report bugs/crashes! I can't fix bugs that I don't know about! Thank you!**
