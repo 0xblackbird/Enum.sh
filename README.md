@@ -1,7 +1,9 @@
 
 # Update 02/02/2020
 **1. Added *Assetfinder* to scan subdomains!**
+
 **2. Added *Eyewitness* to screenshot all the subdomains [OPTIONAL]**
+
 **3. Cleaned up the code! :)**
 
 # Subdomain Scanner[BETA]
@@ -19,9 +21,9 @@ This makes it easier so you only need to run this script once! More tools and he
 
 3. `$ sudo chmod +x enum.sh`
 
-**MAKE SURE YOU HAVE *SUBLIST3R* and *HTTPROBE* INSTALLED TO AVOID ANY CRASHES!**
+**MAKE SURE YOU HAVE *SUBLIST3R*, *ASSETFINDER*, *EYEWITNESS* AND *HTTPROBE* INSTALLED TO AVOID ANY CRASHES!**
 
-**PLEASE CHANGE THE LOCATION OF THE TOOLS MENTIOND ABOVE TO THE DOWNLOAD LOCATION!**
+**PLEASE CHANGE THE LOCATION OF THE TOOLS MENTIOND ABOVE TO THE DOWNLOAD LOCATION ON YOUR DEVICE!**
 
 # Usage
 
