@@ -6,7 +6,7 @@
 
 **3. Cleaned up the code! :)**
 
-# Subdomain Scanner[BETA]
+# Subdomain Scanner [BETA]
 A subdomain scanner that combines subdomain scanning tools!
 
 # Description
