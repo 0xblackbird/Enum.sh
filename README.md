@@ -15,7 +15,7 @@ I've also added **httprobe** and **eyewitness** to scan live subdomains and scre
 This makes it easier so you only need to run this script once! More tools and helpful functions comming soon! 
 
 # Installation
-1. `$ git clone https://github.com/be1807v/Subdomain-Scanner.git`
+1. `$ git clone https://github.com/be1807v/Enum.sh.git`
 
 2. `$ cd Subdomain-Scanner/`
 
