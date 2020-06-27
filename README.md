@@ -1,35 +1,36 @@
+# Update [27/06/2020]
+**1. Added several new tools!***
 
-# Update 02/02/2020
-**1. Added *Assetfinder* to scan subdomains!**
+**2. Automated the enumeration for hidden parameters and possible subdomain takeovers!***
 
-**2. Added *Eyewitness* to screenshot all the subdomains [OPTIONAL]**
+**3. Fully rewrited the script***
 
-**3. Cleaned up the code! :)**
-
-# Subdomain Scanner [BETA]
-A subdomain scanner that combines subdomain scanning tools!
+# Enum.sh [BETA]
+All of your enumeration tools coded in ONE script!
 
 # Description
-A subdomain scanner that combines **several subdomain scanning tools**!
-I've also added **httprobe** and **eyewitness** to scan live subdomains and screenshot them!
+An enumeration script that combines **several subdomain scanning tools**!
+**Httprobe** and **eyewitness** are also added to check for live (sub)domains and screenshot them!
 This makes it easier so you only need to run this script once! More tools and helpful functions comming soon! 
 
 # Installation
 1. `$ git clone https://github.com/be1807v/Enum.sh.git`
 
-2. `$ cd Subdomain-Scanner/`
+2. `$ cd Enum.sh/`
 
 3. `$ sudo chmod +x enum.sh`
 
-**MAKE SURE YOU HAVE *SUBLIST3R*, *ASSETFINDER*, *EYEWITNESS* AND *HTTPROBE* INSTALLED TO AVOID ANY CRASHES!**
+**Make sure you have *Sublist3r*, *Amass*, *Assetfinder*, *Findomain*, *Subfinder*, *Eyewitness*, *Httprobe* and *Subjack* installed!**
 
 **PLEASE CHANGE THE LOCATION OF THE TOOLS MENTIOND ABOVE TO THE DOWNLOAD LOCATION ON YOUR DEVICE!**
 
 # Usage
 
-`$ ./enum.sh example.com output.txt`
+`$ ./enum.sh example.com`
 
-# BETA
-**This tool is still not complete! More subdomain scanners and other helpful functions are going to be added later on!** 
-
-**Please report bugs/crashes! I can't fix bugs that I don't know about! Thank you!**
+# Features
+- Scans for subdomains using several subdomain enumeration tools (including crt.sh)!
+- Looks for live domains using httprobe (**optional**)
+- Looks for hidden parameters (**optional**)
+- Discovery of possible subdomain takeover (subjack, **optional**)
+- Screenshot all the gathered (sub)domains (eyewitnes, **optional**)
