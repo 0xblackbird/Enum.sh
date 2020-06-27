@@ -1,11 +1,8 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-clear
-printf '\e[8;25;120t'
-domain=$1
-file=$2
+clear;
+printf '\e[8;25;120t';
 
-# Colors...
 red="\e[1;31m"
 yellow="\e[1;33m"
 orange="\e[1;39m"
@@ -13,155 +10,107 @@ blue="\e[1;36m"
 green="\e[1;32m"
 close="\e[0m"
 
-echo -e "${red}
-  _____ _    _ ____  _____   ____  __  __          _____ _   _    _____  _____          _   _ _   _ ______ _____  
- / ____| |  | |  _ \|  __ \ / __ \|  \/  |   /\   |_   _| \ | |  / ____|/ ____|   /\   | \ | | \ | |  ____|  __ \ 
-| (___ | |  | | |_) | |  | | |  | | \  / |  /  \    | | |  \| | | (___ | |       /  \  |  \| |  \| | |__  | |__) |
- \___ \| |  | |  _ <| |  | | |  | | |\/| | / /\ \   | | | .   |  \___ \| |      / /\ \ | .   | .   |  __| |  _  / 
- ____) | |__| | |_) | |__| | |__| | |  | |/ ____ \ _| |_| |\  |  ____) | |____ / ____ \| |\  | |\  | |____| | \ \ 
-|_____/ \____/|____/|_____/ \____/|_|  |_/_/    \_\_____|_| \_| |_____/ \_____/_/    \_\_| \_|_| \_|______|_|  \_\ ${close}	
-
-${blue}By @BE1807V${close}
-${yellow}Usage: ./enum.sh example.com output.txt${close}"
-
 function trap_ctrlc() {
-		if [ -f d0m@ins.txt ]; then			
-			d0m@ins.txt  > $file
-			rm d0m@ins.txt
-		fi
-		echo -e "\n${red}[-] ${blue}'Ctrl+C'${close}${red} detected...Exiting!${close}"
-    exit 2
+	echo -e "\n${yellow}\"Ctrl+^C\"${close}${red} detected...Exiting\! Latest results saved in ./$domain/*${close}";
+	exit 2;
 }
-trap "trap_ctrlc" 2
+trap "trap_ctrlc" 2;
 
-crt_func() {
-  if [ "$domain" != "" ] && [ "$file" != "" ]; then
-   	echo -e "${red}[+] Searching in ${close}${yellow}crt.sh ${close}${red}!${close}"
-	crt=`curl -s https://crt.sh/\?q\=\%.$domain\&output\=json | jq -r '.[].name_value' | sed 's/\*\.//g' | sort -u | tr ' ' '\n'`
-	wait${!}
-	echo -e "${red}[+] Finished enumerating subdomains using${close} ${yellow}'crt.sh'${close}${red}...${close}"
-   else
-	echo -e "${red}[-] Parse error at line ${close}${blue}'44'${close}${red}...Please report this to the developer! Thanks!${close}"
-   fi
-}
 
-assetfinder_func() {
-    if [ "$domain" != "" ] && [ "$file" != "" ]; then
-   	echo -e "${red}[+] Searching in ${close}${yellow}Assetfinder ${close}${red}!${close}"
-	assetfinder=`/usr/bin/assetfinder $domain | xargs -n1 | grep $domain`
-		# CHANGE THE LOCATION ABOVE!
-	echo -e "${red}[+] Finished enumerating subdomains using${close} ${yellow}'Assetfinder'${close}${red}...${close}"
-   else
-	echo -e "${red}[-] Parse error at line ${close}${blue}'54'${close}${red}...Please report this to the developer! Thanks!${close}"
-   fi
-}
-
-sublist3r_func() {
-   if [ "$domain" != "" ] && [ "$file" != "" ]; then
-   	echo -e "${red}[+] Searching in ${close}${yellow}Sublist3r ${close}${red}!${close}"
-	sublist3r=`python /opt/Sublist3r/sublist3r.py -d $domain | sed "s/ /\n/g" | sed "s/<BR>/\n/g" | grep $domain`
-		# CHANGE THE LOCATION ABOVE!
-	clear
-	echo -e "${red}[+] Finished enumerating subdomains using${close} ${yellow}'Sublist3r'${close}${red}...${close}"
-   else
-	echo -e "${red}[-] Parse error at line ${close}${blue}'65'${close}${red}...Please report this to the developer! Thanks!${close}"
-   fi
-}
-
-eyewitness() {
-	if [ "$domain" != "" ] && [ "$file" != "" ]; then
-		echo -e "${red}[+] Screenshotting subdomains using ${close}${yellow}'Eyewitness'${close}...${close}"
-		python3 /opt/EyeWitness/EyeWitness.py -d /screens/ -f $file
-		# CHANGE THE LOCATION ABOVE!
-	else
-		echo -e "${red}[-] Parse error at line ${close}${blue}'74'${close}${red}...Please report this to the developer! Thanks!${close}"
-	fi
-}
-
-finish() {
-	 if [ "$domain" != "" ] && [ "$file" != "" ]; then	
-		results=$crt+$assetfinder+$sublist3r
-		echo -e "${red}[+] Gathering results for ${close}${yellow}'$domain'${close}${red}...${close}"
-		echo $results | sed 's/ /\n/g' | sed 's/<BR>/\n/g' | sed 's/\*\.//g' | grep $domain > d0m@ins.txt
-		sort -u d0m@ins.txt > $file
-		clear
-		echo -e "${red}Do you want to run ${close}${yellow}'httprobe'${close}${red} on the subdomains?${close}${green} y${close}${orange}/${close}${red}N${close}"
-  		read httprobe
-		if [ "$httprobe" == "y" ] || [ "$httprobe" == "Y" ]; then
-			echo -e "${red}[+] Probing domains using${close}${yellow} 'httprobe'${close}${red}...${close}"
-			cat $file > d0m@ins.txt
-			cat d0m@ins.txt | /opt/httprobe/./httprobe > $file
-					# CHANGE THE LOCATION ABOVE!
-			if [ -f d0m@ins.txt ]; then			
-				rm d0m@ins.txt
-			fi
-		elif [ "$httprobe" == "n" ] || [ "$httprobe" == "N" ]; then
-			echo -e "${red}[-] Cancelled${close} ${yellow}'httprobe'${close}${red}!${close}"
-			if [ -f d0m@ins.txt ]; then			
-				#d0m@ins.txt  > $file
-				rm d0m@ins.txt
-			fi
-  		elif [ "$httprobe" != "y" ] || [ "$httprobe" != "Y" ] || [ "$httprobe" != "n" ] || [ ! "$httprobe" != "N" ]; then
-			echo -e "${red}[-] Invalid user input...${close}${yellow}'$httprobe'${close}${red} Do you know what this is?${close}"
-			if [ -f d0m@ins.txt ]; then			
-				#d0m@ins.txt  > $file
-				rm d0m@ins.txt
-			fi		
-		else
-			echo -e "${red}[-] Parse error at line ${close}${blue}'107'${close}${red}...Please report this to the developer! Thanks!${close}"
-			if [ -f d0m@ins.txt ]; then			
-				#d0m@ins.txt  > $file
-				rm d0m@ins.txt
-			fi		
-		fi
-	fi
-	echo -e "${red}Do you want to screenshot all subdomains found for ${close}${yellow}'$domain'${close}${red} using ${close}${yellow}'Eyewitness'${close}${red}?${close}${green} y${close}${orange}/${close}${red}N${close}"
-	read eyewitness
-	if [ "$eyewitness" == "y" ] || [ "$eyewitness" == "Y" ]; then
-		eyewitness
-	elif [ "$eyewitness" == "n" ] || [ "$eyewitness" == "N" ]; then
-		if [ "$domain" != "" ] && [ "$file" != "" ]; then
-			echo -e "${red}[+] Progress finished...Results saved in ${close}${blue}'/root/$file'${close}${red}!${close}"
-		else
-			echo -e "${red}[-] Parse error at line ${close}${blue}'122'${close}${red}...Please report this to the developer! Thanks!${close}"	
-		fi
-	elif [ "$eyewitness" != "y" ] || [ "$eyewitness" != "Y" ] || [ "$eyewitness" != "n" ] || [ "$eyewitness" != "N" ]; then
-		echo -e "${red}[-] Invalid user input...${close}${yellow}'$eyewitness'${close}${red} Do you know what this is?${close}"
-	else
-		echo -e "${red}[-] Parse error at line ${close}${blue}'127'${close}${red}...Please report this to the developer! Thanks!${close}"
-	fi
-}
-
-if [ "$domain" == "" ]; then
-	echo -e "${red}[-] No domain name found...Quitting!${close}"
-elif [[ "$domain" =~ [A-Z] ]]; then
-	echo -e "${red}Invalid domain name found...A domain name cannot contain ${close}${yellow}'uppercase characters'${close}${red}!${close}"
-elif [ "$file" == "" ]; then	
-	echo -e "${red}[-] No output file detected...Please provide an output file!${close}"
-elif [ ! -f "$file" ]; then
-	echo -e "${red}[+] Saving results in ${yellow}$file${close}${red}!${close}"
-	crt_func
-	assetfinder_func
-	sublist3r_func
-	finish
-elif [ -f "$file" ]; then
-	echo -e "${red}[+] ${close}${orange}$file${close}${red} already exist! Overwrite ${orange}$file${close}${red}?${close}${green} y${close}${orange}/${close}${red}N${close}"
-	read overwrite
-	if [ "$overwrite" == "y" ] || [ "$overwrite" == "Y" ]; then
-		echo -e "${red}[+] Overwriting ${close}${orange}$file${close}${red}!${close}"
-		crt_func
-		assetfinder_func
-		sublist3r_func
-		finish
-	elif [ "$overwrite" == "N" ] || [ "$overwrite" == "N" ]; then
-		echo -e "${red}[-] No output file provided...${close}${orange}'$file'${close}${red} already exists!${close}"
-		
-	elif [ "$overwrite" != "y" ] || [ "$overwrite" != "Y" ] || [ "$overwrite" != "N" ] || [ "$overwrite" != "N" ]; then
-		echo -e "${red}[-] Invalid user input...${close}${yellow}'$overwrite'${close}${red} Do you know what this is?${close}"
-	
-	else
-		echo -e "${red}[-] Parse error at line ${close}${blue}'159'${close}${red}...Please report this to the developer! Thanks!${close}"	
-	fi
-else
-	echo -e "${red}[-] Parse error at line ${close}${blue}'162'${close}${red}...Please report this to the developer! Thanks!${close}"
+if [ "$1" == "" ]; then
+	echo -e "${red}Usage: $0 <domain>${close}";
+	exit 1;
 fi
+
+domain=$1
+
+if [ -d "$domain" ]; then
+	echo -e "${red}Directory name already exist!${close}";
+	exit 1;
+else
+	mkdir $domain
+fi
+
+cd $domain
+
+echo -e "${orange}Starting sublist3r enumeration...${close}";
+`sublist3r -d domain > sublist3r.txt`;
+echo -e "${green}Sublist3r enumeration done!${close}${orange} Amass will now start enumerating the domains for ${close}${red}\"$domain\"${close}";
+`amass enum -d $domain -passive -o amass.txt`;
+echo -e "${green}Amass enumeration done!${close}${orange} Assetfinder will now start enumerating the domains for ${close}${red}\"$domain\"${close}";
+assetfinder $domain -subs-only | grep $domain > assetfinder.txt;
+echo -e "${green}Assetfinder enumeration done!${close}${orange} Findomain will now start enumerating the domains for ${close}${red}\"$domain\"${close}";
+findomain -t $domain -o;
+echo -e "${green}Findomain enumeration done!${close}${orange} Subfinder will now start enumerating the domains for ${close}${red}\"$domain\"${close}";
+subfinder -d $domain -o subfinder.txt;
+echo -e "${green}Subfinder enumeration done!${close}${orange} Crt.sh will now start enumerating the domains for ${close}${red}\"$domain\"${close}";
+`curl -s https://crt.sh/\?q\=\%.$domain\&output\=json | jq -r '.[].name_value' | sed 's/\*\.//g' | sort -u | tr ' ' '\n' > crt.sh`;
+echo -e "${green}Crt.sh enumeration done for ${close}${red}\"$domain\"${close}";
+
+
+echo -e "${blue}Concatenating the results...${close}";
+sort -u amass.txt assetfinder.txt $domain.txt subfinder.txt crt.sh sublist3r.txt | grep $domain | sed 's/<BR>/\n/g' > $domain
+sort $domain -o $domain
+
+echo -e "${blue}Do you want to probe for alive domains?${close}${green} y${close}${blue}/${close}${red}N${close}";
+read probealive;
+
+if [ "$probealive" == "y" ] || [ "$probealive" == "Y" ]; then
+	echo -e "${orange}Probing for live domains...Results will be saved in${close}${yellow} 'alive.txt'${close}";
+	$domains | /opt/httprobe/./httprobe > alive.txt
+elif [ "$probealive" == "N" ] || [ "$probealive" == "N" ]; then
+	echo -e "${red}Skipping discovery of alive domains...${close}";
+else
+	echo -e "${red}Invalid user input...${close}${yellow}'$overwrite'${close}";
+	exit 1;	
+fi
+
+echo -e "${yellow}Removing unwanted files...${close}";
+rm amass.txt assetfinder.txt $domain.txt subfinder.txt crt.sh sublist3r.txt
+
+echo -e "${green}Successfully finished the enumeration of subdomains for${yellow} '$domain'${green}\nSubdomains gathered: `sort $domain | wc -w`${close}";
+
+echo -e "${blue}Do you want to discover hidden parameters in the given wordlist? (This process can take alot of time when having alot of subdomains)${close}${green} y${close}${blue}/${close}${red}N${close}";
+read findhiddenparams;
+
+if [ "$findhiddenparams" == "y" ] || [ "$findhiddenparams" == "Y" ]; then
+	echo -e "${orange}Discovering hidden parameters...Results will be saved in${close}${yellow} 'hiddenParams.txt'${close}";
+	cat $domain | /opt/httprobe/./httprobe | payload="'><--><Svg Onload=confirm(1)><-->"; while read url; do hide=$(curl -s -L $url | egrep -o "('|\")hidden('|\") name=('|\")[a-z_0-9-]*" | sed -e 's/\"hidden\"/[FOUND]/g' -e 's,'name=\"','"$url"/?',g'| sed 's/.*/&=$payload/g'); echo -e "\e[1;32m$url""\e[1;33m\n$hide"; done > hiddenParams.txt	
+elif [ "$findhiddenparams" == "N" ] || [ "$findhiddenparams" == "N" ]; then
+	echo -e "${red}Skipping the discovery of hidden parameters...${close}";
+else
+	echo -e "${red}Invalid user input...${close}${yellow}'$overwrite'${close}";
+	exit 1;	
+fi
+
+echo -e "${blue}Do you want to discover subdomains that may be vulnerable to subdomain takeover? (This process can take alot of time when having alot of subdomains)${close}${green} y${close}${blue}/${close}${red}N${close}";
+read subdomaintakeover;
+
+if [ "$subdomaintakeover" == "y" ] || [ "$subdomaintakeover" == "Y" ]; then
+	echo -e "${orange}Checking for subdomain takeover...Results will be saved in${close}${yellow} 'possibleSubdomainTakeover.txt'${close}";
+	`subjack -a -m -ssl -w $domain -o possibleSubdomainTakeover.txt`;
+elif [ "$subdomaintakeover" == "N" ] || [ "$subdomaintakeover" == "N" ]; then
+	echo -e "${red}Skipping the discovery of subdomain takeover vulnerability...${close}";
+else
+	echo -e "${red}Invalid user input...${close}${yellow}'$overwrite'${close}";
+	exit 1;	
+fi
+
+echo -e "${blue}Do you want to screenshot every domain you gathered? (This process can take alot of time when having alot of subdomains)${close}${green} y${close}${blue}/${close}${red}N${close}";
+read screenshotdomains;
+
+if [ "$screenshotdomains" == "y" ] || [ "$screenshotdomains" == "Y" ]; then
+	echo -e "${orange}Screenshotting websites...Results will be saved in${close}${yellow} './$domain/*'${close}";
+	if [ -f alive.txt ]; then
+		`eyewitness --web -f alive.txt -d $domain`;
+	else
+		`eyewitness --web -f $domain -d $domain`
+elif [ "$screenshotdomains" == "N" ] || [ "$screenshotdomains" == "N" ]; then
+	echo -e "${red}Skipping screenshotting domains...${close}";
+else
+	echo -e "${red}Invalid user input...${close}${yellow}'$overwrite'${close}";
+	exit 1;	
+fi
+
+echo -e "${green}Enumeration done! Results saved in \"./$domain/*\"${close}";
+exit 1;
