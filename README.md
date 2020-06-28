@@ -1,9 +1,9 @@
 # Update [27/06/2020]
-**1. Added several new tools!***
+**1. Added several new tools!**
 
-**2. Automated the enumeration for hidden parameters and possible subdomain takeovers!***
+**2. Automated the enumeration for hidden parameters and possible subdomain takeovers!**
 
-**3. Fully rewrited the script***
+**3. Fully rewrited the script**
 
 # Enum.sh [BETA]
 All of your enumeration tools coded in ONE script!
