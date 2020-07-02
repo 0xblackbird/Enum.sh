@@ -1,4 +1,4 @@
-# Update [2/7/2020]
+# Update [02/7/2020]
 **1. Replaced Eyewitness with Aquatone (Aquatone requires you to have Chromium installed!)**
 
 **2. Bug fixes**
