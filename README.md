@@ -18,7 +18,7 @@ This makes it easier so you only need to run this script once! More tools and he
 
 3. `$ sudo chmod +x enum.sh`
 
-**Make sure you have *Sublist3r*, *Amass*, *Assetfinder*, *Findomain*, *Subfinder*, *Eyewitness*, *Httprobe* and *Subjack* installed!**
+**Make sure you have *Sublist3r*, *Amass*, *Assetfinder*, *Findomain*, *Subfinder*, *Aquatone*, *Httprobe* and *Subjack* installed!**
 
 **PLEASE CHANGE THE LOCATION OF THE TOOLS MENTIOND ABOVE TO THE DOWNLOAD LOCATION ON YOUR DEVICE!**
 
