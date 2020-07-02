@@ -81,7 +81,11 @@ read findhiddenparams;
 
 if [ "$findhiddenparams" == "y" ] || [ "$findhiddenparams" == "Y" ]; then
 	echo -e "${orange}Discovering hidden parameters...Results will be saved in${close}${yellow} 'hiddenParams.txt'${close}";
-	cat $domain | /opt/httprobe/./httprobe | payload="'><--><Svg Onload=confirm(1)><-->"; while read url; do hide=$(curl -s -L $url | egrep -o "('|\")hidden('|\") name=('|\")[a-z_0-9-]*" | sed -e 's/\"hidden\"/[FOUND]/g' -e 's,'name=\"','"$url"/?',g'| sed 's/.*/&=$payload/g'); echo -e "\e[1;32m$url""\e[1;33m\n$hide"; done > hiddenParams.txt	
+	if [ -f alive.txt ]; then
+		$(cat alive.txt | while read url; do hide=$(curl -s -L $url | egrep -o "('|\")hidden('|\") name=('|\")[a-z_0-9-]*" | sed -e 's/\"hidden\"/[FOUND]/g' -e 's,'name=\"','"$url"/?',g'| sed 's/.*/&=XSSCHECK/g'); echo -e "\e[1;32m$url""\e[1;33m\n$hide"; done | grep XSSCHECK > hiddenParams.txt)
+	else
+		$(cat $domain | /opt/httprobe/./httprobe | while read url; do hide=$(curl -s -L $url | egrep -o "('|\")hidden('|\") name=('|\")[a-z_0-9-]*" | sed -e 's/\"hidden\"/[FOUND]/g' -e 's,'name=\"','"$url"/?',g'| sed 's/.*/&=XSSCHECK/g'); echo -e "\e[1;32m$url""\e[1;33m\n$hide"; done | grep XSSCHECK > hiddenParams.txt)
+	fi
 elif [ "$findhiddenparams" == "n" ] || [ "$findhiddenparams" == "N" ]; then
 	echo -e "${red}Skipping the discovery of hidden parameters...${close}";
 else
@@ -94,7 +98,7 @@ read subdomaintakeover;
 
 if [ "$subdomaintakeover" == "y" ] || [ "$subdomaintakeover" == "Y" ]; then
 	echo -e "${orange}Checking for subdomain takeover...Results will be saved in${close}${yellow} 'possibleSubdomainTakeover.txt'${close}";
-	`subjack -a -m -ssl -w $domain -o possibleSubdomainTakeover.txt`;
+	$(subjack -a -m -ssl -w $domain -o possibleSubdomainTakeover.txt)
 elif [ "$subdomaintakeover" == "n" ] || [ "$subdomaintakeover" == "N" ]; then
 	echo -e "${red}Skipping the discovery of subdomain takeover vulnerability...${close}";
 else
@@ -107,10 +111,11 @@ read screenshotdomains;
 
 if [ "$screenshotdomains" == "y" ] || [ "$screenshotdomains" == "Y" ]; then
 	echo -e "${orange}Screenshotting websites...Results will be saved in${close}${yellow} './$domain/*'${close}";
+	mkdir $domain
 	if [ -f alive.txt ]; then
-		$(cat alive.txt | aquatone -out $domain);
+		$(cat alive.txt | aquatone -out ./$domain);
 	else
-		$(cat $domain | aquatone -out $domain);
+		$(cat $domain | aquatone -out ./$domain);
 	fi
 elif [ "$screenshotdomains" == "n" ] || [ "$screenshotdomains" == "N" ]; then
 	echo -e "${red}Skipping screenshotting domains...${close}";
