@@ -35,13 +35,14 @@ fi
 cd $domain
 
 echo -e "${orange}Starting sublist3r enumeration...${close}";
-$(sublist3r -d $domain | grep $domain > sublist3r.txt);
+$(sublist3r -d $domain -o sublister.txt);
+$(cat sublister.txt | sed 's/<BR>/\n/g' > sublist3r.txt)
 clear;
 echo -e "${green}Sublist3r enumeration done!${close}${orange} Amass will now start enumerating the domains for ${close}${red}\"$domain\"${close}";
-$(amass enum -d $domain -passive -o amass.txt);
+$(amass enum -d $domain -passive | grep $domain > amass.txt);
 clear;
 echo -e "${green}Amass enumeration done!${close}${orange} Assetfinder will now start enumerating the domains for ${close}${red}\"$domain\"${close}";
-`assetfinder $domain -subs-only | grep $domain > assetfinder.txt`;
+$(assetfinder $domain -subs-only | grep $domain > assetfinder.txt);
 clear;
 echo -e "${green}Assetfinder enumeration done!${close}${orange} Findomain will now start enumerating the domains for ${close}${red}\"$domain\"${close}";
 findomain -t $domain -o;
@@ -50,25 +51,24 @@ echo -e "${green}Findomain enumeration done!${close}${orange} Subfinder will now
 subfinder -d $domain -o subfinder.txt;
 clear;
 echo -e "${green}Subfinder enumeration done!${close}${orange} Crt.sh will now start enumerating the domains for ${close}${red}\"$domain\"${close}";
-`curl -s https://crt.sh/\?q\=\%.$domain\&output\=json | jq -r '.[].name_value' | sed 's/\*\.//g' | sort -u | tr ' ' '\n' > crt.sh`;
+$(curl -s https://crt.sh/\?q\=\%.$domain\&output\=json | jq -r '.[].name_value' | sed 's/\*\.//g' | sort -u | tr ' ' '\n' > crt.sh);
 echo -e "${green}Crt.sh enumeration done for ${close}${red}\"$domain\"${close}";
 
 
 echo -e "${blue}Concatenating the results...${close}";
-sort -u amass.txt assetfinder.txt $domain.txt subfinder.txt crt.sh sublist3r.txt | grep $domain | sed 's/<BR>/\n/g' > $domain
-sort $domain -o $domain
+$(sort -u amass.txt assetfinder.txt $domain.txt subfinder.txt crt.sh sublist3r.txt -o $domain)
 
 echo -e "${yellow}Removing unwanted files...${close}";
-rm amass.txt assetfinder.txt $domain.txt subfinder.txt crt.sh sublist3r.txt
+rm amass.txt assetfinder.txt $domain.txt subfinder.txt crt.sh sublister.txt sublist3r.txt
 
-echo -e "${green}Successfully finished the enumeration of subdomains for${yellow} '$domain'${green}\nSubdomains gathered: `sort $domain | wc -w`${close}";
+echo -e "${green}Successfully finished the enumeration of subdomains for${yellow} '$domain'${green}\nSubdomains gathered: $(sort $domain | wc -w)${close}";
 
 echo -e "${blue}Do you want to probe for alive domains?${close}${green} y${close}${blue}/${close}${red}N${close}";
 read probealive;
 
 if [ "$probealive" == "y" ] || [ "$probealive" == "Y" ]; then
 	echo -e "${orange}Probing for live domains...Results will be saved in${close}${yellow} 'alive.txt'${close}";
-	cat $domains | /opt/httprobe/./httprobe > alive.txt
+	$(cat $domain | /opt/httprobe/./httprobe > alive.txt)
 elif [ "$probealive" == "n" ] || [ "$probealive" == "N" ]; then
 	echo -e "${red}Skipping discovery of alive domains...${close}";
 else
@@ -108,9 +108,9 @@ read screenshotdomains;
 if [ "$screenshotdomains" == "y" ] || [ "$screenshotdomains" == "Y" ]; then
 	echo -e "${orange}Screenshotting websites...Results will be saved in${close}${yellow} './$domain/*'${close}";
 	if [ -f alive.txt ]; then
-		$(eyewitness --web -f alive.txt -d $domain);
+		$(cat alive.txt | aquatone -out $domain);
 	else
-		$(eyewitness --web -f $domain -d $domain);
+		$(cat $domain | aquatone -out $domain);
 	fi
 elif [ "$screenshotdomains" == "n" ] || [ "$screenshotdomains" == "N" ]; then
 	echo -e "${red}Skipping screenshotting domains...${close}";
