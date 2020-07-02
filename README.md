@@ -1,9 +1,7 @@
-# Update [27/06/2020]
-**1. Added several new tools!**
+# Update [2/7/2020]
+**1. Replaced Eyewitness with Aquatone (Aquatone requires you to have Chromium installed!)**
 
-**2. Automated the enumeration for hidden parameters and possible subdomain takeovers!**
-
-**3. Fully rewrited the script**
+**2. Bug fixes**
 
 # Enum.sh [BETA]
 All of your enumeration tools coded in ONE script!
@@ -33,4 +31,4 @@ This makes it easier so you only need to run this script once! More tools and he
 - Looks for live domains using httprobe (**optional**)
 - Looks for hidden parameters (**optional**)
 - Discovery of possible subdomain takeover (subjack, **optional**)
-- Screenshot all the gathered (sub)domains (eyewitnes, **optional**)
+- Screenshot all the gathered (sub)domains (aquatone, **optional**)
