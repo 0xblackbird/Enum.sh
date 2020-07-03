@@ -1,14 +1,12 @@
-# Update [02/7/2020]
-**1. Replaced Eyewitness with Aquatone (Aquatone requires you to have Chromium installed!)**
-
-**2. Bug fixes**
+# Update [04/7/2020]
+**1. Fixed some bugs...**
 
 # Enum.sh [BETA]
 All of your enumeration tools coded in ONE script!
 
 # Description
 An enumeration script that combines **several subdomain scanning tools**!
-**Httprobe** and **eyewitness** are also added to check for live (sub)domains and screenshot them!
+**Httprobe** and **aquatone** are also added to check for live (sub)domains and screenshot them!
 This makes it easier so you only need to run this script once! More tools and helpful functions comming soon! 
 
 # Installation
