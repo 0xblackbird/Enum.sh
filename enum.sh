@@ -110,13 +110,10 @@ echo -e "${blue}Do you want to screenshot every domain you gathered? (This proce
 read screenshotdomains;
 
 if [ "$screenshotdomains" == "y" ] || [ "$screenshotdomains" == "Y" ]; then
-	echo -e "${orange}Screenshotting websites...Results will be saved in${close}${yellow} './$domain/*'${close}";
-	mkdir $domain
-	if [ -f alive.txt ]; then
-		$(cat alive.txt | aquatone -out ./$domain);
-	else
-		$(cat $domain | aquatone -out ./$domain);
-	fi
+	echo -e "${orange}Screenshotting websites...Results will be saved in${close}${yellow} './$domain/aquatone/*'${close}";
+	mkdir aquatone
+	cd aquatone
+	$(cat ../$domain | aquatone)
 elif [ "$screenshotdomains" == "n" ] || [ "$screenshotdomains" == "N" ]; then
 	echo -e "${red}Skipping screenshotting domains...${close}";
 else
