@@ -1,5 +1,5 @@
 # Update [04/7/2020]
-**1. Added -u/-update flag to update script *(downloads it from my website)***
+**1. Added -u/-update flag to update the script *(downloads it from my website, expect daily to weekly updates)***
 
 **2. Fixed some bugs...**
 
