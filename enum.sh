@@ -35,14 +35,14 @@ fi
 cd $domain
 
 echo -e "${orange}Starting sublist3r enumeration...${close}";
-$(sublist3r -d $domain -o sublister.txt);
+sublist3r -d $domain -o sublister.txt
 $(cat sublister.txt | sed 's/<BR>/\n/g' > sublist3r.txt)
 clear;
 echo -e "${green}Sublist3r enumeration done!${close}${orange} Amass will now start enumerating the domains for ${close}${red}\"$domain\"${close}";
-$(amass enum -d $domain -passive | grep $domain > amass.txt);
+amass enum -d $domain -passive | grep $domain > amass.txt
 clear;
 echo -e "${green}Amass enumeration done!${close}${orange} Assetfinder will now start enumerating the domains for ${close}${red}\"$domain\"${close}";
-$(assetfinder $domain -subs-only | grep $domain > assetfinder.txt);
+assetfinder $domain -subs-only | grep $domain > assetfinder.txt
 clear;
 echo -e "${green}Assetfinder enumeration done!${close}${orange} Findomain will now start enumerating the domains for ${close}${red}\"$domain\"${close}";
 findomain -t $domain -o;
@@ -51,7 +51,7 @@ echo -e "${green}Findomain enumeration done!${close}${orange} Subfinder will now
 subfinder -d $domain -o subfinder.txt;
 clear;
 echo -e "${green}Subfinder enumeration done!${close}${orange} Crt.sh will now start enumerating the domains for ${close}${red}\"$domain\"${close}";
-$(curl -s https://crt.sh/\?q\=\%.$domain\&output\=json | jq -r '.[].name_value' | sed 's/\*\.//g' | sort -u | tr ' ' '\n' > crt.sh);
+curl -s https://crt.sh/\?q\=\%.$domain\&output\=json | jq -r '.[].name_value' | sed 's/\*\.//g' | sort -u | tr ' ' '\n' > crt.sh
 echo -e "${green}Crt.sh enumeration done for ${close}${red}\"$domain\"${close}";
 
 
@@ -98,7 +98,11 @@ read subdomaintakeover;
 
 if [ "$subdomaintakeover" == "y" ] || [ "$subdomaintakeover" == "Y" ]; then
 	echo -e "${orange}Checking for subdomain takeover...Results will be saved in${close}${yellow} 'possibleSubdomainTakeover.txt'${close}";
-	$(subjack -a -m -ssl -w $domain -o possibleSubdomainTakeover.txt)
+	subjack -a -m -ssl -w $domain -o possibleSubdomainTakeover.txt -v
+	wait${!}
+	if [ ! -f possibleSubdomainTakeover.txt ]; then
+		echo -e "${red}No domains found that are vulnerable to subdomain takeover.${orange} Remember to always check it out manually!${close}"
+	fi
 elif [ "$subdomaintakeover" == "n" ] || [ "$subdomaintakeover" == "N" ]; then
 	echo -e "${red}Skipping the discovery of subdomain takeover vulnerability...${close}";
 else
@@ -113,7 +117,7 @@ if [ "$screenshotdomains" == "y" ] || [ "$screenshotdomains" == "Y" ]; then
 	echo -e "${orange}Screenshotting websites...Results will be saved in${close}${yellow} './$domain/aquatone/*'${close}";
 	mkdir aquatone
 	cd aquatone
-	$(cat ../$domain | aquatone)
+	cat ../$domain | aquatone
 elif [ "$screenshotdomains" == "n" ] || [ "$screenshotdomains" == "N" ]; then
 	echo -e "${red}Skipping screenshotting domains...${close}";
 else
