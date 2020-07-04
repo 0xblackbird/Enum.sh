@@ -1,5 +1,6 @@
 # Update [04/7/2020]
-**1. Fixed some bugs...**
+**1. Added -u/-update flag to update script (downloads it from my website)**
+**2. Fixed some bugs...**
 
 # Enum.sh [BETA]
 All of your enumeration tools coded in ONE script!
