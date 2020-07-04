@@ -24,6 +24,7 @@ if [ "$1" == "" ]; then
 elif [ "$1" == "-u" ] || [ "$1" == "-update" ]; then
 	echo -e "${yellow}Updating the script...Hold on.${close}";
 	$(wget https://be1807v.github.io/scripts/enum.sh -O enum.sh)
+	chmod +x enum.sh
 	clear
 	echo -e "${green}Script updated!${close}";
 	exit 1; 
