@@ -98,7 +98,7 @@ read subdomaintakeover;
 
 if [ "$subdomaintakeover" == "y" ] || [ "$subdomaintakeover" == "Y" ]; then
 	echo -e "${orange}Checking for subdomain takeover...Results will be saved in${close}${yellow} 'possibleSubdomainTakeover.txt'${close}";
-	subjack -a -m -ssl -w $domain -o possibleSubdomainTakeover.txt -v
+	subjack -a -m -ssl -w $domain -o possibleSubdomainTakeover.txt
 	wait${!}
 	if [ ! -f possibleSubdomainTakeover.txt ]; then
 		echo -e "${red}No domains found that are vulnerable to subdomain takeover.${orange} Remember to always check it out manually!${close}"
