@@ -1,7 +1,9 @@
 # Update [06/7/2020]
 **1. New feature available to exclude subdomains that are out of scope!**
 
-**2. Fixed some errors**
+**2. Made the update function more effective**
+
+**3. Fixed some errors**
 
 # Enum.sh [BETA]
 All of your enumeration tools coded in ONE script!
