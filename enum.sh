@@ -27,7 +27,7 @@ elif [ "$1" == "-u" ] || [ "$1" == "-update" ]; then
 	chmod +x enum.sh
 	clear
 	echo -e "${green}Script updated!${close}";
-	exit 1; 
+	exit 1;
 fi
 
 domain=$1
@@ -40,6 +40,18 @@ else
 fi
 
 cd $domain
+
+echo -e "${blue}Do you have any subdomains that you want to exclude from the scope? (separate by a comma ',' without white space between the domains, leave blank to not exclude any subdomains)${close}${red}";
+read outOfScope
+
+excludeDomains=true
+
+if [ "$outOfScope" == "" ]; then
+	echo -e "${green}No domains excluded from scope!${close}";
+	$excludeDomains=false	
+else
+	separatedDomains=$(echo $outOfScope | tr "," "\n")
+fi
 
 echo -e "${orange}Starting sublist3r enumeration...${close}";
 sublist3r -d $domain -o sublister.txt
@@ -64,9 +76,17 @@ echo -e "${green}Crt.sh enumeration done for ${close}${red}\"$domain\"${close}";
 
 echo -e "${blue}Concatenating the results...${close}";
 $(sort -u amass.txt assetfinder.txt $domain.txt subfinder.txt crt.sh sublist3r.txt -o $domain)
+echo $separatedDomains
+if [ $excludeDomains ]; then
+	for domainToExclude in $separatedDomains; do
+		echo -e "${red}Removing \"$domainToExclude\" from scope!${close}";
+		sed -ri s/"$domainToExclude"// $domain
+	done
+fi
 
 echo -e "${yellow}Removing unwanted files...${close}";
 rm amass.txt assetfinder.txt $domain.txt subfinder.txt crt.sh sublister.txt sublist3r.txt
+sed -ri s/\n// $domain
 
 echo -e "${green}Successfully finished the enumeration of subdomains for${yellow} '$domain'${green}\nSubdomains gathered: $(sort $domain | wc -w)${close}";
 
