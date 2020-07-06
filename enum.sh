@@ -25,7 +25,7 @@ if [ "$1" == "" ]; then
 	echo -e "\n${red}Example: $0 example.com${close}";
 	exit 1;
 elif [ "$1" == "-u" ] || [ "$1" == "-update" ]; then
-	checkVersion=$(curl --url "https://be1807v.github.io/scripts/enum.sh" > /dev/null)
+	checkVersion=$(curl --url "https://be1807v.github.io/scripts/enum.sh")
 	if [[ "$checkVersion" == *"currentVersion=$currentVersion"* ]]; then
 		echo -e "${green}Script is already up to date! No need to update it!${close}";
 		exit 1;
