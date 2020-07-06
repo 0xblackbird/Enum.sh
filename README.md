@@ -1,5 +1,5 @@
 # Update [06/7/2020]
-**1. New feature available to exclude subdomains that are out of scope!***
+**1. New feature available to exclude subdomains that are out of scope!**
 
 **2. Fixed some errors**
 
