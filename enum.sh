@@ -3,6 +3,9 @@
 clear;
 printf '\e[8;25;120t';
 
+currentVersion=1.6.5
+
+
 red="\e[1;31m"
 yellow="\e[1;33m"
 orange="\e[1;39m"
@@ -22,12 +25,20 @@ if [ "$1" == "" ]; then
 	echo -e "\n${red}Example: $0 example.com${close}";
 	exit 1;
 elif [ "$1" == "-u" ] || [ "$1" == "-update" ]; then
-	echo -e "${yellow}Updating the script...Hold on.${close}";
-	$(wget https://be1807v.github.io/scripts/enum.sh -O enum.sh)
-	chmod +x enum.sh
-	clear
-	echo -e "${green}Script updated!${close}";
-	exit 1;
+	checkVersion=$(curl --url "https://be1807v.github.io/scripts/enum.sh")
+	if [[ "$checkVersion" == *"currentVersion=$currentVersion"* ]]; then
+		echo -e "${green}Script is already up to date! No need to update it!${close}";
+		exit 1;
+	elif [[ "$checkVersion" != *"currentVersion=$currentVersion"* ]]; then
+		echo -e "${yellow}Updating the script...Hold on.${close}";
+		$(wget https://be1807v.github.io/scripts/enum.sh -O enum.sh)
+		chmod +x enum.sh
+		clear
+		echo -e "${green}Script updated!${close}";
+		exit 1;
+	else
+		
+	fi
 fi
 
 domain=$1
