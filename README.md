@@ -1,7 +1,7 @@
-# Update [04/7/2020]
-**1. Added -u/-update flag to update the script *(downloads it from my website, expect daily to weekly updates)***
+# Update [06/7/2020]
+**1. New feature available to exclude subdomains that are out of scope!***
 
-**2. Fixed some bugs...**
+**2. Fixed some errors**
 
 # Enum.sh [BETA]
 All of your enumeration tools coded in ONE script!
