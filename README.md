@@ -1,5 +1,5 @@
 # Update [09/7/2020]
-**1. Removed the -u/--update flag because of the unstability (this may be added later on) **
+**1. Removed the -u/--update flag because of the unstability (this may be added later on)**
 
 # Enum.sh [BETA]
 All of your enumeration tools coded in ONE script!
