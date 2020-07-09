@@ -3,8 +3,6 @@
 clear;
 printf '\e[8;25;120t';
 
-currentVersion=1.7
-
 
 red="\e[1;31m"
 yellow="\e[1;33m"
@@ -44,9 +42,10 @@ excludeDomains=true
 
 if [ "$outOfScope" == "" ]; then
 	echo -e "${green}No domains excluded from scope!${close}";
-	$excludeDomains=false	
+	excludeDomains=false	
 else
 	separatedDomains=$(echo $outOfScope | tr "," "\n")
+	excludeDomains=true
 fi
 
 echo -e "${orange}Starting sublist3r enumeration...${close}";
@@ -73,7 +72,7 @@ echo -e "${green}Crt.sh enumeration done for ${close}${red}\"$domain\"${close}";
 echo -e "${blue}Concatenating the results...${close}";
 $(sort -u amass.txt assetfinder.txt $domain.txt subfinder.txt crt.sh sublist3r.txt -o $domain)
 echo $separatedDomains
-if [ $excludeDomains ]; then
+if [ $excludeDomains == "true" ]; then
 	for domainToExclude in $separatedDomains; do
 		echo -e "${red}Removing \"$domainToExclude\" from scope!${close}";
 		sed -ri s/"$domainToExclude"// $domain
@@ -121,8 +120,13 @@ read subdomaintakeover;
 
 if [ "$subdomaintakeover" == "y" ] || [ "$subdomaintakeover" == "Y" ]; then
 	echo -e "${orange}Checking for subdomain takeover...Results will be saved in${close}${yellow} 'possibleSubdomainTakeover.txt'${close}";
-	subjack -a -m -ssl -w $domain -o possibleSubdomainTakeover.txt
-	wait${!}
+	if [ -f alive.txt ]; then
+		subjack -a -m -ssl -w alive.txt -o possibleSubdomainTakeover.txt
+		wait${!}
+	else
+		subjack -a -m -ssl -w $domain -o possibleSubdomainTakeover.txt
+		wait${!}
+	fi
 	if [ ! -f possibleSubdomainTakeover.txt ]; then
 		echo -e "${red}No domains found that are vulnerable to subdomain takeover.${orange} Remember to always check it out manually!${close}"
 	fi
