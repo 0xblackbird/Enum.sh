@@ -1,5 +1,5 @@
 # Update [09/7/2020]
-**1. Fixed some errors...**
+**1. Added BurpSuite scope regex (just copy&paste in your scope and you're good to go! No more unnecessary requests!**
 
 # Enum.sh [BETA]
 All of your enumeration tools coded in ONE script!
