@@ -78,17 +78,16 @@ echo -e "${green}Crt.sh enumeration done for ${close}${red}\"$domain\"${close}";
 
 echo -e "${blue}Concatenating the results...${close}";
 $(sort -u amass.txt assetfinder.txt $domain.txt subfinder.txt crt.sh sublist3r.txt -o $domain)
-echo $separatedDomains
 if [ $excludeDomains == "true" ]; then
 	for domainToExclude in $separatedDomains; do
 		echo -e "${red}Removing \"$domainToExclude\" from scope!${close}";
-		sed -ri s/"$domainToExclude"// $domain
+		sed -i "/$domainToExclude/d" $domain
 	done
 fi
 
 echo -e "${yellow}Removing unwanted files...${close}";
 rm amass.txt assetfinder.txt $domain.txt subfinder.txt crt.sh sublister.txt sublist3r.txt
-sed -ri s/\n// $domain
+sed -i "/\n/d" $domain
 
 echo -e "${green}Successfully finished the enumeration of subdomains for${yellow} '$domain'${green}\nSubdomains gathered: $(sort $domain | wc -w)${close}";
 
@@ -151,7 +150,7 @@ if [ "$screenshotdomains" == "y" ] || [ "$screenshotdomains" == "Y" ]; then
 	echo -e "${orange}Screenshotting websites...Results will be saved in${close}${yellow} './$domain/aquatone/*'${close}";
 	mkdir aquatone
 	cd aquatone
-	cat ../$domain | aquatone
+	cat ../$domain | aquatone -threads 10
 elif [ "$screenshotdomains" == "n" ] || [ "$screenshotdomains" == "N" ]; then
 	echo -e "${red}Skipping screenshotting domains...${close}";
 else
