@@ -1,5 +1,5 @@
-# Update [12/7/2020]
-**1. Fixed some issues where the out of scope function didn't work correctly.**
+# Update [07/8/2020]
+**1. Added an intallation script which will install all the requirements for this script to run correctly**
 
 # Enum.sh [BETA]
 All of your enumeration tools coded in ONE script!
@@ -14,9 +14,11 @@ This makes it easier so you only need to run this script once! More tools and he
 
 2. **`$ cd enum/`**
 
-3. **`$ chmod +x enum.sh`**
+3. **`$ chmod +x *.sh`**
 
-**Make sure you have *Sublist3r*, *Amass*, *Assetfinder*, *Findomain*, *Subfinder*, *Aquatone*, *Httprobe* and *Subjack* installed!**
+4. **`$ ./install.sh`**
+
+**Make sure you have root access! Else the install.sh will not be able to install all the required tools!**
 
 # Usage
 
