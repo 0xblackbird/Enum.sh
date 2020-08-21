@@ -1,8 +1,8 @@
 # Update [07/8/2020]
 **1. Added a new (flag) that will enable all the options without requiring additional user input**
 
-# Enum.sh [BETA]
-All of your enumeration tools coded in ONE script!
+# Enum.sh
+All of your enumeration tools implemented in ONE single script!
 
 # Description
 An enumeration script that combines **several subdomain scanning tools**!
