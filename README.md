@@ -23,6 +23,7 @@ This makes it easier so you only need to run this script once! More tools and he
 # Usage
 
 **`$ ./enum.sh example.com`**
+
 **`$ ./enum.sh example.com default`** # This will enable all the features listed below
 
 # Features
