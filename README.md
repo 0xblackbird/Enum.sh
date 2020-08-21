@@ -1,5 +1,5 @@
 # Update [07/8/2020]
-**1. Added a new (flag) that will enable all the options without requiring additional user input**
+**1. The script accepts now an additional cli argument which will enable all the options without requiring any other user input**
 
 # Enum.sh
 All of your enumeration tools implemented in ONE single script!
