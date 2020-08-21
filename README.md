@@ -1,5 +1,5 @@
 # Update [07/8/2020]
-**1. Added an intallation script which will install all the requirements for this script to run correctly**
+**1. Added a new (flag) that will enable all the options without requiring additional user input**
 
 # Enum.sh [BETA]
 All of your enumeration tools coded in ONE script!
@@ -23,10 +23,10 @@ This makes it easier so you only need to run this script once! More tools and he
 # Usage
 
 **`$ ./enum.sh example.com`**
+**`$ ./enum.sh example.com default`** # This will enable all the features listed below
 
 # Features
 - Scans for subdomains using several subdomain enumeration tools (including crt.sh)!
 - Looks for live domains using httprobe (**optional**)
-- Looks for hidden parameters (**optional**)
 - Discovery of possible subdomain takeover (*subjack*, **optional**)
 - Screenshot all the gathered (sub)domains (*aquatone*, **optional**)
