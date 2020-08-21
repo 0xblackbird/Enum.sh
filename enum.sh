@@ -73,7 +73,6 @@ sublist3r -d $domain -o sublister.txt
 $(cat sublister.txt | sed 's/<BR>/\n/g' > sublist3r.txt)
 
 echo -e "${green}Sublist3r enumeration done!${close}${orange} Amass will now start enumerating the domains for ${close}${red}\"$domain\"${close}";
-echo -e "${red}Oops...sorry..I will display it once more for you: ${green}$scope${close}"
 amass enum -d $domain -passive | grep $domain > amass.txt
 
 echo -e "${green}Amass enumeration done!${close}${orange} Assetfinder will now start enumerating the domains for ${close}${red}\"$domain\"${close}";
