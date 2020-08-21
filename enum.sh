@@ -17,13 +17,24 @@ function trap_ctrlc() {
 trap "trap_ctrlc" 2;
 
 
-if [ "$1" == "" ]; then
-	echo -e "${red}Usage: $0 <domain>${close}";
+if [ -z "$1" ]; then
+	echo -e "${red}Usage: $0 <domain> default${close}";
 	echo -e "\n${red}Example: $0 example.com${close}";
+	echo -e "\n${red}Example: $0 example.com default${close}";
 	exit 1;
 fi
 
 domain=$1
+default=$2
+
+if [ -z "$2" ]; then
+	default="0"
+elif [ "$default" == "default" ] || [ "$default" == "DEFAULT" ] || [ "$default" == "d" ] || [ "$default" == "D" ]; then
+	echo -e "${blue}Using the default options!${close}";
+	default="1"
+else
+	default="0"
+fi
 
 if [ -d "$domain" ]; then
 	echo -e "${red}Directory name already exist!${close}";
@@ -34,10 +45,13 @@ fi
 
 cd $domain
 
-echo -e "${blue}Do you have any subdomains that you want to exclude from the scope? (separate by a comma ',' without white space between the domains, leave blank to not exclude any subdomains)${close}${red}";
-read outOfScope
-
-excludeDomains=true
+if [ "$default" == "1" ]; then
+	excludeDomains=false
+else
+	echo -e "${blue}Do you have any subdomains that you want to exclude from the scope? (separate by a comma ',' without white space between the domains, leave blank to not exclude any subdomains)${close}${red}";
+	read outOfScope	
+	excludeDomains=true
+fi
 
 if [ "$outOfScope" == "" ]; then
 	echo -e "${green}No domains excluded from scope!${close}";
@@ -57,20 +71,20 @@ echo -e "${green}$scope${close}";
 echo -e "${orange}Starting sublist3r enumeration...${close}";
 sublist3r -d $domain -o sublister.txt
 $(cat sublister.txt | sed 's/<BR>/\n/g' > sublist3r.txt)
-clear;
+
 echo -e "${green}Sublist3r enumeration done!${close}${orange} Amass will now start enumerating the domains for ${close}${red}\"$domain\"${close}";
 echo -e "${red}Oops...sorry..I will display it once more for you: ${green}$scope${close}"
 amass enum -d $domain -passive | grep $domain > amass.txt
-clear;
+
 echo -e "${green}Amass enumeration done!${close}${orange} Assetfinder will now start enumerating the domains for ${close}${red}\"$domain\"${close}";
 assetfinder $domain -subs-only | grep $domain > assetfinder.txt
-clear;
+
 echo -e "${green}Assetfinder enumeration done!${close}${orange} Findomain will now start enumerating the domains for ${close}${red}\"$domain\"${close}";
 findomain -t $domain -o;
-clear;
+
 echo -e "${green}Findomain enumeration done!${close}${orange} Subfinder will now start enumerating the domains for ${close}${red}\"$domain\"${close}";
 subfinder -d $domain -o subfinder.txt;
-clear;
+
 echo -e "${green}Subfinder enumeration done!${close}${orange} Crt.sh will now start enumerating the domains for ${close}${red}\"$domain\"${close}";
 curl -s https://crt.sh/\?q\=\%.$domain\&output\=json | jq -r '.[].name_value' | sed 's/\*\.//g' | sort -u | tr ' ' '\n' > crt.sh
 echo -e "${green}Crt.sh enumeration done for ${close}${red}\"$domain\"${close}";
@@ -91,8 +105,12 @@ sed -i "/\n/d" $domain
 
 echo -e "${green}Successfully finished the enumeration of subdomains for${yellow} '$domain'${green}\nSubdomains gathered: $(sort $domain | wc -w)${close}";
 
-echo -e "${blue}Do you want to probe for alive domains?${close}${green} y${close}${blue}/${close}${red}N${close}";
-read probealive;
+if [ "$default" == "0" ]; then
+	echo -e "${blue}Do you want to probe for alive domains?${close}${green} y${close}${blue}/${close}${red}N${close}";
+	read probealive;
+else
+	probealive="y"
+fi
 
 if [ "$probealive" == "y" ] || [ "$probealive" == "Y" ]; then
 	echo -e "${orange}Probing for live domains...Results will be saved in${close}${yellow} 'alive.txt'${close}";
@@ -104,25 +122,14 @@ else
 	exit 1;	
 fi
 
-echo -e "${blue}Do you want to discover hidden parameters in the given wordlist? (This process can take alot of time when having alot of subdomains)${close}${green} y${close}${blue}/${close}${red}N${close}";
-read findhiddenparams;
+echo -e "${green}Successfully gathered all the live subdomains for ${yellow} '$domain'${green}\nAlive subdomains gathered: $(sort alive.txt | wc -w)${close}";
 
-if [ "$findhiddenparams" == "y" ] || [ "$findhiddenparams" == "Y" ]; then
-	echo -e "${orange}Discovering hidden parameters...Results will be saved in${close}${yellow} 'hiddenParams.txt'${close}";
-	if [ -f alive.txt ]; then
-		$(cat alive.txt | while read url; do hide=$(curl -s -L $url | egrep -o "('|\")hidden('|\") name=('|\")[a-z_0-9-]*" | sed -e 's/\"hidden\"/[FOUND]/g' -e 's,'name=\"','"$url"/?',g'| sed 's/.*/&=XSSCHECK/g'); echo -e "\e[1;32m$url""\e[1;33m\n$hide"; done | grep XSSCHECK > hiddenParams.txt)
-	else
-		$(cat $domain | /opt/httprobe/./httprobe | while read url; do hide=$(curl -s -L $url | egrep -o "('|\")hidden('|\") name=('|\")[a-z_0-9-]*" | sed -e 's/\"hidden\"/[FOUND]/g' -e 's,'name=\"','"$url"/?',g'| sed 's/.*/&=XSSCHECK/g'); echo -e "\e[1;32m$url""\e[1;33m\n$hide"; done | grep XSSCHECK > hiddenParams.txt)
-	fi
-elif [ "$findhiddenparams" == "n" ] || [ "$findhiddenparams" == "N" ]; then
-	echo -e "${red}Skipping the discovery of hidden parameters...${close}";
+if [ "$default" == "0" ]; then
+	echo -e "${blue}Do you want to discover subdomains that may be vulnerable to subdomain takeover? (This process can take alot of time when having alot of subdomains)${close}${green} y${close}${blue}/${close}${red}N${close}";
+	read subdomaintakeover;
 else
-	echo -e "${red}Invalid user input...${close}${yellow}'$overwrite'${close}";
-	exit 1;	
+	subdomaintakeover="y"
 fi
-
-echo -e "${blue}Do you want to discover subdomains that may be vulnerable to subdomain takeover? (This process can take alot of time when having alot of subdomains)${close}${green} y${close}${blue}/${close}${red}N${close}";
-read subdomaintakeover;
 
 if [ "$subdomaintakeover" == "y" ] || [ "$subdomaintakeover" == "Y" ]; then
 	echo -e "${orange}Checking for subdomain takeover...Results will be saved in${close}${yellow} 'possibleSubdomainTakeover.txt'${close}";
@@ -143,8 +150,12 @@ else
 	exit 1;	
 fi
 
-echo -e "${blue}Do you want to screenshot every domain you gathered? (This process can take alot of time when having alot of subdomains)${close}${green} y${close}${blue}/${close}${red}N${close}";
-read screenshotdomains;
+if [ "$default" == "0" ]; then
+	echo -e "${blue}Do you want to screenshot every domain you gathered? (This process can take alot of time when having alot of subdomains)${close}${green} y${close}${blue}/${close}${red}N${close}";
+	read screenshotdomains;
+else
+	screenshotdomains="y"
+fi
 
 if [ "$screenshotdomains" == "y" ] || [ "$screenshotdomains" == "Y" ]; then
 	echo -e "${orange}Screenshotting websites...Results will be saved in${close}${yellow} './$domain/aquatone/*'${close}";
