@@ -1,4 +1,4 @@
-# Update [07/8/2020]
+# Update [21/08/2020]
 **1. The script accepts now an additional cli argument which will enable all the options without requiring any other user input**
 
 # Enum.sh
