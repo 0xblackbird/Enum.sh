@@ -1,5 +1,5 @@
 # Update [21/08/2020]
-**1. The script accepts now an additional cli argument which will enable all the options without requiring any other user input**
+**1. Added new subdomain gathering source: bufferover.run**
 
 # Enum.sh
 All of your enumeration tools implemented in ONE single script!
