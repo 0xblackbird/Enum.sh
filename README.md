@@ -27,7 +27,7 @@ This makes it easier so you only need to run this script once! More tools and he
 **`$ ./enum.sh example.com default`** # This will enable all the features listed below
 
 # Features
-- Scans for subdomains using several subdomain enumeration tools (including crt.sh)!
+- Scans for subdomains using several subdomain enumeration tools (including crt.sh and bufferover.run)!
 - Looks for live domains using httprobe (**optional**)
 - Discovery of possible subdomain takeover (*subjack*, **optional**)
 - Screenshot all the gathered (sub)domains (*aquatone*, **optional**)
