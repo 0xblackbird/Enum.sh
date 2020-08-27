@@ -24,6 +24,9 @@ sudo apt-get install sublist3r amass
 # Downloading && installing Assetfinder
 go get -u github.com/tomnomnom/assetfinder
 
+# Downloading && installing Anew
+go get -u github.com/tomnomnom/anew
+
 # Downloading && installing Findomain
 sudo wget https://github.com/Edu4rdSHL/findomain/releases/latest/download/findomain-linux -O findomain
 sudo chmod +x findomain
