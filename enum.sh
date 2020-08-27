@@ -49,13 +49,13 @@ if [ "$default" == "1" ]; then
 	excludeDomains=false
 else
 	echo -e "${blue}Do you have any subdomains that you want to exclude from the scope? (separate by a comma ',' without white space between the domains, leave blank to not exclude any subdomains)${close}${red}";
-	read outOfScope	
+	read outOfScope
 	excludeDomains=true
 fi
 
 if [ "$outOfScope" == "" ]; then
 	echo -e "${green}No domains excluded from scope!${close}";
-	excludeDomains=false	
+	excludeDomains=false
 else
 	separatedDomains=$(echo $outOfScope | tr "," "\n")
 	excludeDomains=true
@@ -73,7 +73,7 @@ sublist3r -d $domain -o sublister.txt
 $(cat sublister.txt | sed 's/<BR>/\n/g' > sublist3r.txt)
 
 echo -e "${green}Sublist3r enumeration done!${close}${orange} Amass will now start enumerating the domains for ${close}${red}\"$domain\"${close}";
-amass enum -d $domain -passive | grep $domain > amass.txt
+amass enum -d $domain -active | grep $domain > amass.txt
 
 echo -e "${green}Amass enumeration done!${close}${orange} Assetfinder will now start enumerating the domains for ${close}${red}\"$domain\"${close}";
 assetfinder $domain -subs-only | grep $domain > assetfinder.txt
@@ -86,11 +86,14 @@ subfinder -d $domain -o subfinder.txt;
 
 echo -e "${green}Subfinder enumeration done!${close}${orange} Crt.sh will now start enumerating the domains for ${close}${red}\"$domain\"${close}";
 curl -s https://crt.sh/\?q\=\%.$domain\&output\=json | jq -r '.[].name_value' | sed 's/\*\.//g' | sort -u | tr ' ' '\n' > crt.sh
-echo -e "${green}Crt.sh enumeration done for ${close}${red}\"$domain\"${close}";
 
+echo -e "${green}Crt.sh enumeration done!${close}${orange} Bufferover.run will now start enumerating the domains for ${close}${red}\"$domain\"${close}";
+curl -s dns.bufferover.run/dns?q=.$domain | jq -r .FDNS_A[] | sed -s 's/,/\n/g' | grep $domain | anew > bufferoverrun.txt
+
+echo -e "${green}Bufferover.run enumeration done for ${close}${red}\"$domain\"${close}";
 
 echo -e "${blue}Concatenating the results...${close}";
-$(sort -u amass.txt assetfinder.txt $domain.txt subfinder.txt crt.sh sublist3r.txt -o $domain)
+$(sort -u amass.txt assetfinder.txt $domain.txt subfinder.txt crt.sh sublist3r.txt bufferoverrun.txt -o $domain)
 if [ $excludeDomains == "true" ]; then
 	for domainToExclude in $separatedDomains; do
 		echo -e "${red}Removing \"$domainToExclude\" from scope!${close}";
@@ -99,7 +102,7 @@ if [ $excludeDomains == "true" ]; then
 fi
 
 echo -e "${yellow}Removing unwanted files...${close}";
-rm amass.txt assetfinder.txt $domain.txt subfinder.txt crt.sh sublister.txt sublist3r.txt
+rm amass.txt assetfinder.txt $domain.txt subfinder.txt crt.sh sublister.txt sublist3r.txt bufferoverrun.txt
 sed -i "/\n/d" $domain
 
 echo -e "${green}Successfully finished the enumeration of subdomains for${yellow} '$domain'${green}\nSubdomains gathered: $(sort $domain | wc -w)${close}";
