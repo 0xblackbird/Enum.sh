@@ -10,7 +10,7 @@ An enumeration script that combines **several subdomain scanning tools**!
 This makes it easier so you only need to run this script once! More tools and helpful functions comming soon! 
 
 # Installation
-1. **`$ git clone https://github.com/be1807v/Enum.sh.git enum`**
+1. **`$ git clone https://github.com/0xblackbird/Enum.sh.git enum`**
 
 2. **`$ cd enum/`**
 
